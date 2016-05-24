@@ -9,25 +9,10 @@ import sbtbuildinfo.Plugin._
 object FpScalaBuild extends Build {
 
   object Dependencies {
-    val scalazVersion = "7.2.0"
 
-    val scalaz = "org.scalaz" %% "scalaz-core" % scalazVersion withSources () withJavadoc ()
+    val scalatest = "org.scalatest" %% "scalatest" % "3.0.0-RC1" % "test" withSources () withJavadoc ()
 
-    val scalatest = "org.scalatest" %% "scalatest" % "3.0.0-M15" % "test" withSources () withJavadoc ()
-
-    val scalacheck = Seq(
-      "org.scalacheck" %% "scalacheck" % "1.13.0" % "test" withSources () withJavadoc (),
-      "org.scalaz" %% "scalaz-scalacheck-binding" % scalazVersion % "test" withSources () withJavadoc ()      
-    )
-
-    val monocleVersion = "1.2.0"
-
-    val monocle = Seq(
-      "com.github.julien-truffaut" %% "monocle-core"    % monocleVersion,
-      "com.github.julien-truffaut" %% "monocle-macro"   % monocleVersion,
-      "com.github.julien-truffaut" %% "monocle-generic" % monocleVersion,
-      "com.github.julien-truffaut" %% "monocle-state"   % monocleVersion
-    )
+    val scalacheck = "org.scalacheck" %% "scalacheck" % "1.13.1" % "test" withSources () withJavadoc ()
 
   }
 
@@ -54,9 +39,7 @@ object FpScalaBuild extends Build {
     Seq(
       libraryDependencies ++= Seq(
           Dependencies.scalatest,
-          Dependencies.scalaz ) ++ 
-          Dependencies.monocle ++
-          Dependencies.scalacheck,
+          Dependencies.scalacheck),
         scalacOptions ++= Seq( "-feature", "-deprecation" ),
         unmanagedSourceDirectories in Compile := (scalaSource in Compile).value :: Nil,
         unmanagedSourceDirectories in Test := (scalaSource in Test).value :: Nil
@@ -70,7 +53,7 @@ object FpScalaBuild extends Build {
         name := "fp-scala",
         mainClass := Some("fr.thomasdufour.fpscala.Main"),
         initialCommands := """|import fr.thomasdufour.fpscala._
-                              |import scalaz._,Scalaz._""".stripMargin
+                              |import parser.Calc._""".stripMargin
       )
   )
 }
